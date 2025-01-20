@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Event Details</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Event Details</h2>
+    <div class="card mt-3">
+        <div class="card-body">
+            <h4 class="card-title">{{ event.name }}</h4>
+            <p class="card-text">{{ event.description }}</p>
+            <p><strong>Start Date:</strong> <span id="startDate">{{ event.start_date.strftime('%Y-%m-%d') }}</span></p>
+            <p><strong>End Date:</strong> <span id="endDate">{{ event.end_date.strftime('%Y-%m-%d') }}</span></p>
+            <p><strong>Registration Deadline:</strong> {{ event.registration_deadline.strftime('%Y-%m-%d') }}</p>
+
+            <!-- Clock In / Clock Out Buttons -->
+            <button 
+                id="clockIn" 
+                class="btn btn-primary" 
+                onclick="handleClockAction('{{ event._id }}', 'clock_in')"
+                {% if clock_status != 'Clock In' %}disabled{% endif %}>
+                Clock In
+            </button>
+
+            <button 
+                id="clockOut" 
+                class="btn btn-secondary" 
+                onclick="handleClockAction('{{ event._id }}', 'clock_out')"
+                {% if clock_status != 'Clock Out' %}disabled{% endif %}>
+                Clock Out
+            </button>
+
+            <!-- Running Timer -->
+            <div id="runningTime" class="mt-3 text-success" style="font-weight: bold;"></div>
+        </div>
+    </div>
+
+    <!-- Logs Table -->
+    <div class="card mt-3">
+        <div class="card-body">
+            <h4 class="card-title">Daily Logs</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>#</th>
+                        <th>Clock In Time</th>
+                        <th>Clock Out Time</th>
+                        <th>Hours Worked</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for log in logs %}
+                    <tr>
+                        <td>{{ loop.index }}</td>
+                        <td>{{ log.clock_in_time.strftime('%m-%d-%Y %H:%M:%S') }}</td>
+                        <td>
+                            {% if log.clock_out_time %}
+                            {{ log.clock_out_time.strftime('%m-%d-%Y %H:%M:%S') }}
+                            {% else %}
+                            <span class="text-danger">Still Clocked In</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if log.hours_worked %}
+                            {{ log.hours_worked|round(2) }}
+                            {% else %}
+                            <span class="text-danger">In Progress</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <a href="{{ url_for('volunteer_dashboard') }}" class="btn btn-primary mt-3">Back to Dashboard</a>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const startDate = new Date(document.getElementById('startDate').textContent.trim());
+    const endDate = new Date(document.getElementById('endDate').textContent.trim());
+    const currentDate = new Date();
+
+    const clockInButton = document.getElementById('clockIn');
+    const clockOutButton = document.getElementById('clockOut');
+
+    // Disable buttons if current date is outside the event range
+    if (currentDate < startDate || currentDate > endDate) {
+      clockInButton.disabled = true;
+      clockOutButton.disabled = true;
+    }
+  });
+
+  function handleClockAction(eventId, action) {
+    const buttonIn = document.getElementById("clockIn");
+    const buttonOut = document.getElementById("clockOut");
+
+    $.ajax({
+        url: `/${action}/${eventId}`,
+        type: "POST",
+        success: function (response) {
+            alert(response.message);
+            // Toggle button states
+            if (action === "clock_in") {
+                buttonIn.disabled = true;
+                buttonOut.disabled = false;
+                startTimer();  // Start the running timer
+            } else if (action === "clock_out") {
+                buttonIn.disabled = false;
+                buttonOut.disabled = true;
+                stopTimer();  // Stop the running timer
+            }
+        },
+        error: function () {
+            alert("Failed to update clock status.");
+        }
+    });
+  }
+
+  let timerInterval;
+  function startTimer() {
+    const runningTime = document.getElementById("runningTime");
+    const startTime = new Date();
+
+    timerInterval = setInterval(() => {
+      const elapsedTime = Math.floor((new Date() - startTime) / 1000);
+      const hours = Math.floor(elapsedTime / 3600);
+      const minutes = Math.floor((elapsedTime % 3600) / 60);
+      const seconds = elapsedTime % 60;
+
+      runningTime.textContent = `Running Time: ${hours}h ${minutes}m ${seconds}s`;
+    }, 1000);
+  }
+
+  function stopTimer() {
+    clearInterval(timerInterval);
+    const runningTime = document.getElementById("runningTime");
+    runningTime.textContent = "";  // Clear the timer display
+  }
+</script>
+</body>
+</html>

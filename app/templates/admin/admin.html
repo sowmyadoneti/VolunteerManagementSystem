@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Nunito', sans-serif;
+        }
+        
+        .sidebar {
+            min-height: 100vh;
+            background: #007bff;
+            color: #fff;
+        }
+    
+        .nav-link {
+            color: #fff;
+        }
+    
+        .nav-link:hover {
+            color: #f8f9fa;
+        }
+    
+        .nav-link.active {
+            background-color: #0353a4;
+            border-radius: .25rem;
+        }
+    
+        .card {
+            box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+            transition: 0.3s;
+        }
+    
+        .card:hover {
+            box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+        }
+    
+        .card-footer {
+            background-color: rgba(0,0,0,0.03);
+        }
+    
+        .card-footer a {
+            color: white;
+        }
+    
+        .btn-custom {
+            background-color: #007bff;
+            border-color: #007bff;
+            color: #f8f9fa;
+        }
+        
+        .btn-custom:hover, .btn-custom:focus {
+            background-color: #0056b3;
+            border-color: #0056b3;
+            color: #f8f9fa;
+        }
+        
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- Container -->
+    <div class="d-flex h-100">
+
+        <!-- Sidebar -->
+        <div class="sidebar d-flex flex-column flex-shrink-0 p-3 text-white">
+            <h3 class="px-3 py-4">Dashboard</h3>
+            <ul class="nav nav-pills flex-column mb-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" aria-current="page" href="#">Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('manage_organizations')}}">Manage Organization</a>
+                </li>  
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('manage_admin_events')}}">Manage Events</a>
+                </li>  
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('manage_volunteers')}}">Manage Volunteers</a>
+                </li>
+          
+                
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{{url_for('logout')}}">Logout</a>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- Content -->
+        <div class="flex-grow-1 p-5">
+            <h1>Welcome to the Admin Dashboard</h1>
+            <!-- Adjusted card layout for Organizations, Supervisors, Volunteers -->
+            <div class="row justify-content-center mt-4">
+                <!-- Organizations Card -->
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Organizations</h5>
+                            <p class="card-text">{{ total_organizations }} Organizations</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('manage_organizations') }}" class="btn btn-custom">Manage Organizations</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Supervisors Card -->
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Certificates</h5>
+                            <p class="card-text">{{ total_certifications }} Issued</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('admin_logs') }}" class="btn btn-custom">View Certificates</a>
+                        </div>
+                    </div>
+                </div>
+                <!-- Volunteers Card -->
+                <div class="col-md-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h5 class="card-title">Total Volunteers</h5>
+                            <p class="card-text">{{ total_volunteers }} Volunteers</p>
+                        </div>
+                        <div class="card-footer">
+                            <a href="{{ url_for('manage_volunteers') }}" class="btn btn-custom">View Volunteers</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

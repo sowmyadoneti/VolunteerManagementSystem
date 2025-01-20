@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Validated</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Certificate Validated</h2>
+    <p class="text-success">The certificate has been successfully validated!</p>
+    <ul class="list-group mb-3">
+        <li class="list-group-item"><strong>Volunteer ID:</strong> {{ certificate.volunteer_id }}</li>
+        <li class="list-group-item"><strong>Event ID:</strong> {{ certificate.event_id }}</li>
+        <li class="list-group-item"><strong>Status:</strong> {{ certificate.status }}</li>
+        <li class="list-group-item"><strong>Date Issued:</strong> {{ certificate.issued_on.strftime('%Y-%m-%d') }}</li>
+    </ul>
+    <a href="{{ url_for('download_certificate_public', certificate_id=certificate._id) }}" class="btn btn-success">Download Certificate</a>
+    <a href="{{ url_for('validate_certificate') }}" class="btn btn-secondary">Back to Validation</a>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

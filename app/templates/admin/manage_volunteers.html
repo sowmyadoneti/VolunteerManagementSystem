@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Volunteers</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e7f1ff;
+        }
+        .card {
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-top: 20px;
+        }
+        .btn-primary {
+            background-color: #0056b3;
+            border-color: #004080;
+        }
+        .status-active {
+            color: green;
+            font-weight: bold;
+        }
+        .status-disabled {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Manage Volunteers</h2>
+    <div class="card p-4">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for volunteer in volunteers %}
+                <tr>
+                    <td>{{ loop.index }}</td>
+                    <td>{{ volunteer.name }}</td>
+                    <td>{{ volunteer.email }}</td>
+                    <td>{{ volunteer.phone }}</td>
+                    <td>
+                        <span class="{{ 'status-active' if volunteer.status == 'active' else 'status-disabled' }}">
+                            {{ volunteer.status.capitalize() }}
+                        </span>
+                    </td>
+                    <td>
+                        <form action="{{ url_for('manage_volunteers') }}" method="POST" style="display: inline;">
+                            <input type="hidden" name="volunteer_id" value="{{ volunteer._id }}">
+                            {% if volunteer.status == 'active' %}
+                            <input type="hidden" name="status" value="disabled">
+                            <button type="submit" class="btn btn-sm btn-danger">Disable</button>
+                            {% else %}
+                            <input type="hidden" name="status" value="active">
+                            <button type="submit" class="btn btn-sm btn-success">Activate</button>
+                            {% endif %}
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{{ url_for('admin_dashboard') }}" class="btn btn-primary">Back to Dashboard</a>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Organization</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        /* General container styles */
+        body {
+            background: linear-gradient(to right, #e3f2fd, #bbdefb);
+            font-family: Arial, sans-serif;
+        }
+
+        .form-container {
+            max-width: 600px;
+            margin: auto;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            padding: 2rem;
+            background-color: #ffffff;
+            border: 2px solid #90caf9;
+        }
+
+        h2 {
+            color: #1976d2;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #1976d2;
+            border-color: #1976d2;
+        }
+
+        .btn-primary:hover {
+            background-color: #0d47a1;
+            border-color: #0d47a1;
+        }
+
+        .btn-secondary {
+            background-color: #e0e0e0;
+            border-color: #bdbdbd;
+        }
+
+        .btn-secondary:hover {
+            background-color: #bdbdbd;
+            border-color: #9e9e9e;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container py-5">
+    <div class="form-container">
+        <h2 class="mb-4">Edit Organization</h2>
+        <form action="{{ url_for('edit_organization', org_id=organization._id) }}" method="POST">
+            <div class="mb-3">
+                <label for="org_name" class="form-label">Organization Name</label>
+                <input type="text" class="form-control" id="org_name" name="org_name" value="{{ organization.org_name }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="org_email" class="form-label">Organization Email</label>
+                <input type="email" class="form-control" id="org_email" name="org_email" value="{{ organization.org_email }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="contact_person" class="form-label">Contact Person</label>
+                <input type="text" class="form-control" id="contact_person" name="contact_person" value="{{ organization.contact_person }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="contact_email" class="form-label">Contact Email</label>
+                <input type="email" class="form-control" id="contact_email" name="contact_email" value="{{ organization.contact_email }}" required>
+            </div>
+
+            <div class="mb-3">
+                <label for="contact_phone" class="form-label">Contact Phone</label>
+                <input type="tel" class="form-control" id="contact_phone" name="contact_phone" value="{{ organization.contact_phone }}" required>
+            </div>
+
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Update Organization</button>
+                <a href="{{ url_for('admin_dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

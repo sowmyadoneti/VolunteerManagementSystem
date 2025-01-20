@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate Verified</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <h3 class="card-title text-success">Certificate Verified</h3>
+                <ul class="list-group">
+                    <li class="list-group-item"><strong>Volunteer:</strong> {{ volunteer.name }}</li>
+                    <li class="list-group-item"><strong>Event:</strong> {{ event.name }}</li>
+                    <li class="list-group-item"><strong>Organization:</strong> {{ organization.org_name }}</li>
+                    <li class="list-group-item"><strong>Issued On:</strong> {{ certificate.issued_on.strftime('%Y-%m-%d') }}</li>
+                </ul>
+                <a href="{{ url_for('download_certificate_public', certificate_id=certificate['_id']) }}" class="btn btn-success mt-3">
+                    Download Certificate
+                </a>
+                <a href="{{ url_for('index') }}" class="btn btn-secondary mt-3">Go Back</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
