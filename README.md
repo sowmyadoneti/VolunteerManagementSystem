@@ -1,12 +1,5 @@
 # Volunteer Management System
 
-**CRN 11625**  
-**Contributors:**  
-- **Aishwarya Pasumarthy** - 700759282  
-- **Mansur Shaik** - 700752385  
-- **Sowmya Doneti** - 700754085  
-- **Chaganti Ananthareddy** - 700756534  
-
 ---
 
 The Volunteer Management System database is designed to support the coordination, assignment, and management of volunteers for various events hosted by organizations. It centralizes volunteer information, event details, time tracking, and certifications, ensuring smooth and efficient volunteer operations. 
